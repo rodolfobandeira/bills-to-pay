@@ -11,25 +11,26 @@
  *
  * $ gcc -o main main.c
  * $ ./main
- * [{"bill_id": 1, "description": "Food", "amount": 99.25}]
+ * [{"bill_id": 1, "description": "Food", "amount": 99.25, "due_date": 20180131}]
  */
 
 
-/* TODO: Add date time field here. Could be timestamp YYYYMMDD */
 struct bills {
     int bill_id;
     char description[128];
     float amount;
+    int due_date; /* YYYYMMDD */
 };
 
 
 struct bills
-set_bill(int bill_id, char *description, float amount) {
+set_bill(int bill_id, char *description, float amount, int due_date) {
     struct bills bill;
 
     bill.bill_id = bill_id;
     strlcpy(bill.description, description, sizeof(description));
     bill.amount = amount;
+    bill.due_date = due_date;
 
     return bill;
 }
@@ -43,28 +44,38 @@ throw_exception(char *message)
     return 0;
 }
 
-
-int
-main()
+char *
+bill_struct2json(struct bills bill)
 {
     char final_json[255];
-    struct bills bill;
-
-    if (-1 == pledge("stdio", NULL))
-        err(1, "pledge");
-
-    bill = set_bill(1, "Food", 99.25);
 
     snprintf(
         final_json,
         sizeof(final_json),
-        "[{\"bill_id\": %d, \"description\": \"%s\", \"amount\": %.2f}]",
+        "[{\"bill_id\": %d, \"description\": \"%s\", \"amount\": %.2f, \"due_date\": %d}]",
         bill.bill_id,
         bill.description,
-        bill.amount
+        bill.amount,
+        bill.due_date
     );
 
-    printf("%s \n", final_json);
+
+/* TODO: Fix this error */
+    return final_json;
+}
+
+
+int
+main()
+{
+    if (-1 == pledge("stdio", NULL))
+        err(1, "pledge");
+
+    printf("%s \n",
+        bill_struct2json(
+            set_bill(1, "Food", 99.25, 20180131)
+        )
+    );
 
     return 0;
 }
