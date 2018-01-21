@@ -47,7 +47,7 @@ throw_exception(char *message)
 char *
 bill_struct2json(struct bills bill)
 {
-    char final_json[255];
+    static char final_json[255];
 
     snprintf(
         final_json,
@@ -59,10 +59,6 @@ bill_struct2json(struct bills bill)
         bill.due_date
     );
 
-
-/* TODO: Fix this error here:
- * address of stack memory associated with local variable 'final_json' returned [-Wreturn-stack-address]
- */
     return final_json;
 }
 
