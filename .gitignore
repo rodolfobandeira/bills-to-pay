@@ -1,3 +1,9 @@
+main
+
+##################################
+# DEFAULT .gitignore FROM GITHUB
+##################################
+
 # Prerequisites
 *.d
 
