@@ -60,7 +60,9 @@ bill_struct2json(struct bills bill)
     );
 
 
-/* TODO: Fix this error */
+/* TODO: Fix this error here:
+ * address of stack memory associated with local variable 'final_json' returned [-Wreturn-stack-address]
+ */
     return final_json;
 }
 
